@@ -15,10 +15,10 @@ public class BannerServiceImplm implements BannerService{
     private final BannerRepository  bannerRepository ;
     @Override
     public Banner createBanner(CreateBanner createBanner) {
-        Banner banner = Banner.builder().type(createBanner.getType())
-                .tile(createBanner.getTitle())
-                .image(createBanner.getImage())
-                .build();
+        Banner banner = new Banner();
+        banner.setImage(createBanner.getImage());
+        banner.setTile(createBanner.getTitle());
+        banner.setImage(createBanner.getImage());
         bannerRepository.save(banner);
 
         return banner;

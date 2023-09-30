@@ -25,4 +25,8 @@ public class BannerController {
     public BaseResponse getByID (@PathVariable String type){
         return  BaseResponse.successListData(bannerService.getAllBannerByType(type) , bannerService.getAllBannerByType(type).size());
     }
+    @DeleteMapping("del/{id}")
+    public BaseResponse deleteByOd (@PathVariable long id){
+        return BaseResponse.successData(bannerService.deleteBanner(id));
+    }
 }

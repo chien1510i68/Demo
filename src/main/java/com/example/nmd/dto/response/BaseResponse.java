@@ -2,6 +2,7 @@ package com.example.nmd.dto.response;
 
 
 import lombok.Data;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class BaseResponse {
         response.setResult(rows, total);
         return response;
     }
+
+
 
     public static <T> BaseResponse error(int code, String msg) {
         BaseResponse baseResponse = new BaseResponse();

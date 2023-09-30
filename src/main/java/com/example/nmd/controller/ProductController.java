@@ -1,11 +1,16 @@
 package com.example.nmd.controller;
 
 import com.example.nmd.dto.request.CreateProductRequest;
+import com.example.nmd.dto.request.FilterProduct;
 import com.example.nmd.dto.response.BaseResponse;
 import com.example.nmd.model.Product;
 import com.example.nmd.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("product/")
@@ -30,7 +35,7 @@ public class ProductController {
         return BaseResponse.successData(productService.getProductById(id));
     }
 
-    @GetMapping("")
+    @GetMapping("all")
     public BaseResponse getAll (){
         return BaseResponse.successListData(productService.getAllProduct() , productService.getAllProduct().size() );
     }
@@ -38,5 +43,12 @@ public class ProductController {
     @GetMapping("del/{id}")
     public BaseResponse deleteProduct (@PathVariable long id){
         return BaseResponse.successData(productService.deleteProduct(id));
+    }
+
+
+    @PostMapping("findByKeyWord")
+    public BaseResponse findByKeyWord(@RequestBody FilterProduct request ){
+        List<Product> products = productService.filterProduct( request).getContent().stream().collect(Collectors.toList());
+        return BaseResponse.successListData( products, products.size());
     }
 }

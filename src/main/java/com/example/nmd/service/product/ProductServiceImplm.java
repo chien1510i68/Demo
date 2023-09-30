@@ -1,10 +1,16 @@
 package com.example.nmd.service.product;
 
 import com.example.nmd.dto.request.CreateProductRequest;
+import com.example.nmd.dto.request.FilterProduct;
 import com.example.nmd.model.Product;
+import com.example.nmd.repository.CustomProductRepository;
 import com.example.nmd.repository.ProductRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -69,5 +75,13 @@ public class ProductServiceImplm implements ProductService{
         }
         productRepository.delete(product.get());
         return product.get();
+    }
+
+
+
+    @Override
+    public Page<Product> filterProduct(FilterProduct request) {
+        Specification<Product> productSpecification = CustomProductRepository.filterSpecification(request);
+        return productRepository.findAll(productSpecification , PageRequest.of(request.getStart(), request.getLimit()));
     }
 }
